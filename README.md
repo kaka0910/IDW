@@ -6,4 +6,4 @@ The Observation station files are in `.000 format`, but since this is unpublishe
 
 ## Visualization
 The visualization results (2022-12-10 12:00 UTC, Scatter-Left, IDW-Right) are shown in the following figure:
-<img width="720" alt="image" src="https://github.com/kaka0910/IDW/assets/23305257/8043ecaf-3a02-4646-8129-e981fee565ff">
+<img width="800" alt="image" src="https://github.com/kaka0910/IDW/assets/23305257/8043ecaf-3a02-4646-8129-e981fee565ff">
