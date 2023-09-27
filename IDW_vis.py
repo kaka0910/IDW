@@ -115,6 +115,13 @@ def vis_vis(input_path):
     fog_value = np.array(fog_value,dtype=np.float64)
     
     X = np.array([[x,y] for x, y in zip(longitude,latitude)])
+
+    # Scatter Fig
+    img = np.zeros(shape=(mask.shape[0],mask.shape[1],3))
+    for q in range(len(fog_value)):
+        if X[q][0]>lon_s and X[q][0]<lon_l and X[q][1]<lat_l and X[q][1]>lat_s:
+            if int(fog_value[q])>=0:
+                cv2.circle(img, (int((X[q][0]-lon_s)/dpi), int((lat_l-X[q][1])/dpi)),5, colors[int(fog_value[q])],-1)
     
     invdisttree = Invdisttree(X, fog_value, leafsize=10, stat=0)
     
@@ -124,7 +131,6 @@ def vis_vis(input_path):
         interpol = invdisttree(X_new, nnear=6, eps=0.1, p=2, max_dist=25)
         Data_res.append(interpol)
     
-    # import pdb;pdb.set_trace()
     np_data = np.array(Data_res)
     np_data[mask==True] = 0
     res=np.zeros((mask.shape[0],mask.shape[1],3),dtype=np.uint8)
@@ -136,10 +142,12 @@ def vis_vis(input_path):
                 res[i][j] = colors[level]
             else:
                 res[i][j] = (236,236,236)
+                img[i][j] = (236,236,236)
     
-    return res
+    return res, img
 
-
-path='/Users/kaka/Desktop/Inter/2022121012.000'
-fog_data=vis_vis(path)
-cv2.imwrite('test.jpg',fog_data)
+if __name__=="__main__":
+    path = '/Users/kaka/Desktop/Inter/2022121012.000'
+    fog_data,img = vis_vis(path)
+    cv2.imwrite('2022121012_IDW.jpg', fog_data)
+    cv2.imwrite('2022121012_Scatter.jpg', img)
